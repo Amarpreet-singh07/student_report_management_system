@@ -1,0 +1,451 @@
+#include<iostream>
+#include <fstream>
+#include <stdlib.h>
+#include <conio.h>
+#include <string.h>
+#include <stdio.h>
+#include <windows.h>
+using namespace std;
+char str[30], pass[10];
+char ch;
+int i = 0, n;
+class student
+{
+private:
+    string name, address, contact_no, email_id, f_name, roll_no;
+    int english, physics, chemistry, maths, cs,attendance;
+
+
+public:
+    void menu();
+    void insert();
+    void display();
+    void modify();
+    void search();
+    void deleted();
+
+};
+
+void student::menu()
+{
+menustart:
+    int choice;
+    char x;
+    system("cls");
+
+    cout << " \t\t\t||###################################################################################################||" << endl;
+    cout << " \t\t\t||                                         WELCOME TO                                                || " << endl;
+    cout << " \t\t\t||                               STUDENT REPORT MANAGEMENT SYSYTEM                                   || " << endl;
+    cout << " \t\t\t||###################################################################################################||\n" <<endl;
+
+    cout << "\t\t\t [1]. Enter New Record" << endl;
+    cout << "\t\t\t [2]. Display Record" << endl;
+    cout << "\t\t\t [3]. Modify Record" << endl;
+    cout << "\t\t\t [4]. Delete Record" << endl;
+    cout << "\t\t\t [5]. Exit\n"  << endl;
+    cout << "\t\t\t||#############################||" << endl;
+    cout << "\t\t\t||                             ||" << endl;
+    cout << "\t\t\t||Choose Option:[1/2/3/4/5]    ||" << endl;
+    cout << "\t\t\t||                             ||" << endl;
+    cout << "\t\t\t||#############################||" << endl;
+    cout << "Enter Your Choose: ";
+
+    cin >> choice;
+  switch (choice)
+    {
+    case 1:
+        do
+        {
+            insert();
+            cout << "\n\t\t\t Add Another Student Record (Y,N): ";
+            cin >> x;
+        } while (x == 'y' || x == 'Y');
+
+        break;
+    case 2:
+        display();
+        break;
+    case 3:
+        modify();
+        break;
+
+    case 4:
+        deleted();
+        break;
+    case 5:
+        exit(0);
+    default:
+        cout << "\n\t\t\t Invalid choice... Please Try Again..";
+    }
+    getch();
+    goto menustart;
+}
+
+void student::insert() // add student details
+{
+    system("cls");
+    fstream file;
+    cout << "\t\t\t||###################################################################################################||"<<endl;
+    cout << "\t\t\t||                                 Add Student Details                                               ||"<< endl;
+    cout << "\t\t\t||###################################################################################################||"<<endl;;
+
+    cout << "\t\t\tEnter Name: ";
+    cin >> name;
+    cout << "\t\t\tEnter Roll No.: ";
+    cin >> roll_no;
+    cout << "\t\t\tEnter Student's Father Name: ";
+    cin >> f_name;
+    cout << "\t\t\tEnter Email Id: ";
+    cin >> email_id;
+    cout << "\t\t\tEnter Contact No: ";
+    cin >> contact_no;
+    cout << "\t\t\tEnter Address: ";
+    cin >> address;
+    cout << "\t\t\tEnter physics marks :";
+    cin >> physics;
+    cout << "\t\t\tEnter mathematcs marks :";
+    cin >> maths;
+    cout << "\t\t\tEnter english marks :";
+    cin >> english;
+    cout << "\t\t\tEnter cs marks :";
+    cin >> cs;
+    cout << "\t\t\tEnter chemistry marks :";
+    cin >> chemistry;
+    cout << "\t\t\tEnter  Attendance  :";
+    cin >> attendance;
+
+    file.open("data1.txt", ios::app | ios::out);
+    file << " " << name << " " << roll_no << " " << f_name << " " << email_id << " " << contact_no << " " << address << "  " << physics << "  " << maths << "  " << english << "  " << cs << "   " << chemistry << "  " <<attendance<<"  "
+         << "\n";
+    file.close();
+}
+
+void student::display()
+{
+    system("cls");
+    fstream file;
+    int total = 1;
+    cout << "\n\t\t\t||#####################################################################################################||" << endl;
+    cout << "  \t\t\t||                                      Student Record Table                                           ||" << endl;
+    cout << "  \t\t\t||#####################################################################################################||" << endl;
+    file.open("data1.txt", ios::in);
+
+    cout << "\n\t\t\t\t\t\t\t\tLOADING...";
+    for (int j = 0; j < 2; j++)
+    {
+        Sleep(1500);
+        cout << ".";
+    }
+    system("cls");
+    if (!file)
+    {
+        /* code */
+        cout << "\n\t\t\tNo Data Is Present...";
+        file.close();
+    }
+    else
+    {
+        file >> name >> roll_no >> f_name >> email_id >> contact_no >> address >> physics >> maths >> english >> cs >> chemistry>>attendance ;
+        while (!file.eof())
+        {
+            {
+                cout << "\n\n\t\t\t Student No.             || " << total++ << endl;
+                cout << "\t\t\t Student Name            || " << name << endl;
+                cout << "\t\t\t Student Roll No.        || " << roll_no << endl;
+                cout << "\t\t\t Student's Father Name   || " << f_name << endl;
+                cout << "\t\t\t Student Email Id.       || " << email_id << endl;
+                cout << "\t\t\t Student Contact No.     || " << contact_no << endl;
+                cout << "\t\t\t Student Address         || " << address << endl;
+                cout << "\t\t\t Physics Marks           || " << physics << endl;
+                cout << "\t\t\t Mathematics  Marks      || " << maths << endl;
+                cout << "\t\t\t English  Marks          || " << english << endl;
+                cout << "\t\t\t CS  Marks               || " << cs << endl;
+                cout << "\t\t\t Chemistry  Marks        || " << chemistry << endl;
+                cout << "\t\t\t Attendance              || " << attendance<<endl;
+
+               file >> name >> roll_no >> f_name >> email_id >> contact_no >> address >> physics >> maths >> english >> cs >> chemistry>>attendance ;
+            }
+            if (total == 0)
+            {
+
+                cout << "\n\t\t\tNo Data Is Present..."<<endl;
+                getch();
+            }
+        }
+        file.close();
+    }
+}
+void student::modify()
+{
+    system("cls");
+    fstream file, file1;
+    string rollno;
+    int found = 0;
+    cout << "\n\t\t\t||###################################################################################################||" << endl;
+    cout << "  \t\t\t||                                Student Modify Details                                             ||" << endl;
+    cout << "  \t\t\t||###################################################################################################||";
+    file.open("data1.txt", ios::in);
+    if (!file)
+    {
+        cout << "\n\t\t\tNo Data is Present..";
+    }
+    else
+    {
+        cout << "\nEnter Roll No. of Student which you want to Modify: ";
+        cin >> rollno;
+        file1.open("data2.txt", ios::app | ios::out);
+        file >> name >> roll_no >> f_name >> email_id >> contact_no >> address >> physics >> maths >> english >> cs >> chemistry>>attendance ;
+        while (!file.eof())
+        {
+            if (rollno != roll_no)
+                 file1 << " " << name << " " << roll_no << " " << f_name << " " << email_id << " " << contact_no << " " << address << "  " << physics << "  " << maths << "  " << english << "  " << cs << "   " << chemistry << "  " <<attendance<<"  "
+         << "\n";
+            else
+            {
+                cout << "\n\t\t\tEnter Name: ";
+                cin >> name;
+                cout << "\t\t\tEnter Roll No.: ";
+                cin >> roll_no;
+                cout << "\t\t\tEnter Student's Father Name: ";
+                cin >> f_name;
+                cout << "\t\t\tEnter Email Id: ";
+                cin >> email_id;
+                cout << "\t\t\tEnter Contact No: ";
+                cin >> contact_no;
+                cout << "\t\t\tEnter Address: ";
+                cin >> address;
+                cout << "\t\t\tEnter physics marks :";
+                cin >> physics;
+                cout << "\t\t\tEnter mathematcs marks :";
+                cin >> maths;
+                cout << "\t\t\tEnter english marks :";
+                cin >> english;
+                cout << "\t\t\tEnter cs marks :";
+                cin >> cs;
+                cout << "\t\t\tEnter chemistry marks :";
+                cin >> chemistry;
+                cout << "\t\t\tEnter  Attendance  :";
+                cin>> attendance;
+                file1 << " " << name << " " << roll_no << " " << f_name << " " << email_id << " " << contact_no << " " << address << "  " << physics << "  " << maths << "  " << english << "  " << cs << "   " << chemistry << "  " <<attendance<<"  "
+         << "\n";
+                found++;
+            }
+           file >> name >> roll_no >> f_name >> email_id >> contact_no >> address >> physics >> maths >> english >> cs >> chemistry>>attendance ;
+            if (found == 0)
+            {
+                cout << "\n\n\t\t\t Student Roll No. Not Found....";
+            }
+        }
+        file1.close();
+        file.close();
+        remove("data1.txt");
+        rename("data2.txt", "data1.txt");
+    }
+}
+void student::search()
+{
+    system("cls");
+    fstream file;
+    int found = 0;
+    file.open("data1.txt", ios::in);
+    if (!file)
+    {
+        cout << "\n\t\t\t||################################################################################################||" << endl;
+        cout << "\t\t\t||                                Student Search Data                                              ||" << endl;
+        cout << "\t\t\t||#################################################################################################||"<< endl;
+        cout << "\n\t\t\t No Data Is Present...";
+    }
+    else
+    {
+        string rollno;
+        cout << "\n\t\t\t||#################################################################################################||" << endl;
+        cout << "\t\t\t||                                Student Search Data                                               ||" << endl;
+        cout << "\t\t\t||##################################################################################################||" << endl;
+        cout << "\n Enter Roll No. of Student Which You Want to Search: ";
+        cin >> rollno;
+        file >> name >> roll_no >> f_name >> email_id >> contact_no >> address >> physics >> maths >> english >> cs >> chemistry>>attendance ;
+        while (!file.eof())
+        {
+            if (rollno == roll_no)
+            {
+                cout << "\n\t\t\t\t\t\t\tLOADING...";
+                for (int j = 0; j < 2; j++)
+                {
+                    Sleep(1500);
+                    cout << ".";
+                }
+                system("cls");
+                cout << "\t\t\t ||#################################################||" << endl;
+                cout << "\t\t\t ||              SEARCHED STUDENT DATA              ||" << endl;
+                cout << "\t\t\t ||#################################################||" << endl;
+                cout << "\n\t\t\t Student Name            || " << name << endl;
+                cout << "\t\t\t Student Roll No.        || " << roll_no << endl;
+                cout << "\t\t\t Student's Father Name   || " << f_name << endl;
+                cout << "\t\t\t Student Email Id.       || " << email_id << endl;
+                cout << "\t\t\t Student Contact No.     || " << contact_no << endl;
+                cout << "\t\t\t Student Address         || " << address << endl;
+                cout << "\t\t\t Physics Marks           || " << physics << endl;
+                cout << "\t\t\t Mathematics  Marks      || " << maths << endl;
+                cout << "\t\t\t English  Marks          || " << english << endl;
+                cout << "\t\t\t cs  Marks               || " << cs << endl;
+                cout << "\t\t\t Chemistry  Marks        || " << chemistry << endl;
+                cout << "\t\t\t Attendance              || "<< attendance <<endl;
+                found++;
+            }
+            file >> name >> roll_no >> f_name >> email_id >> contact_no >> address >> physics >> maths >> english >> cs >> chemistry>>attendance ;
+        }
+        if (found == 0)
+        {
+            cout << "\n\t\t\t\t\t\t\tLOADING...";
+            for (int j = 0; j < 2; j++)
+            {
+                Sleep(1500);
+                cout << ".";
+            }
+
+            cout << "\n\t\t\tStudent Roll No. Not Found...";
+        }
+        file.close();
+    }
+}
+void student::deleted()
+{
+    system("cls");
+    fstream file, file1;
+    int found = 0;
+    string roll;
+    cout << "\n\t\t\t||###############################################################################################||" << endl;
+    cout << "\t\t\t||                                   Delete Student Details                                       ||" << endl;
+    cout << "\t\t\t||################################################################################################||" << endl;
+    file.open("data1.txt", ios::in);
+    if (!file)
+    {
+        cout << "\n\t\t\tNo Data is Present..";
+        file.close();
+    }
+    else
+    {
+        cout << "\nEnter Roll No. of Student which you want Delete Data: ";
+        cin >> roll;
+        file1.open("data2.txt", ios::app | ios::out);
+       file >> name >> roll_no >> f_name >> email_id >> contact_no >> address >> physics >> maths >> english >> cs >> chemistry>>attendance ;
+        while (!file.eof())
+        {
+            if (roll != roll_no)
+            {
+                 file1 << " " << name << " " << roll_no << " " << f_name << " " << email_id << " " << contact_no << " " << address << "  " << physics << "  " << maths << "  " << english << "  " << cs << "   " << chemistry << "  " <<attendance<<"  "
+         << "\n";
+            }
+            else
+            {
+                found++;
+                cout << "\n\t\t\tSuccessfully Delete Data";
+            }
+            file >> name >> roll_no >> f_name >> email_id >> contact_no >> address >> physics >> maths >> english >> cs >> chemistry>>attendance ;
+        }
+        if (found == 0)
+        {
+            cout << "\n\t\t\t Student Roll NO. Not Found....";
+        }
+        file1.close();
+        file.close();
+        remove("data1.txt");
+        rename("data2.txt", "data1.txt");
+    }
+}
+
+int main()
+
+ {
+    int cho ;
+    student project;
+    m:
+    system("cls");
+    cout << " \t\t\t||###################################################################################################||" << endl;
+    cout << " \t\t\t||                                         WELCOME TO                                                || " << endl;
+    cout << " \t\t\t||                               STUDENT REPORT MANAGEMENT SYSYTEM                                   || " << endl;
+    cout << " \t\t\t||###################################################################################################||\n" <<endl;
+
+
+    cout<<"\n\t\t\t\t\t||@@@@@@@@@@@@@@@ Press [1] -> For Teacher @@@@@@@@@@@@@@@||" <<endl<<"\t\t\t\t\t||@@@@@@@@@@@@@@@ Press [2] -> For Student @@@@@@@@@@@@@@@||"<<endl;
+    cin>>cho;
+    switch (cho)
+    {
+    case 1:
+    goto u;
+        break;
+    case 2:
+        project.search();
+        break;
+
+
+    default:
+       cout<<"invalid output"<<endl;
+
+    }getch();
+    goto m;
+    u:
+    system("cls");
+
+    cout << " \t\t\t||#################################################################################################||" << endl;
+    cout << " \t\t\t||                                                                                                 || " << endl;
+    cout << " \t\t\t||              ENTER THE SECURITY PIN TO OPEN THE STUDENT REPORT MANAGEMENT SYSTEM                || " << endl;
+     cout <<" \t\t\t||                                                                                                 || " << endl;
+    cout << " \t\t\t||#################################################################################################||\n"<< endl;
+    while (ch = getch())
+    {
+        if (ch == 13)
+        {
+            str[i] == '\0';
+            break;
+        }
+        str[i] = ch;
+        ch = '*';
+        cout << ch;
+        i++;
+    }
+    ifstream fin;
+    fin.open("passpro.txt", ios::in);
+    fin.get(pass, 10);
+    fin.close();
+    n = strcmp(pass, str);
+    if (n == 0)
+    {
+        cout << "\n\n\t\t\t\t\t\t\t\t\t LOADING...";
+        for (int i = 0; i < 2; i++)
+        {
+            Sleep(1500);
+            cout << ".";
+        }
+
+        cout << "\n\n\n\t\t\t\t\t\t\t||@@@@@@@@@@@ CORRECT PASSWORD @@@@@@@@@@@|| \n\t\t\t\t\t\t\t||@@@@@@@@@ PRESS ---> ENTER <----@@@@@@@@||" << endl;
+        getch();
+
+        project.menu();
+    }
+    else
+    {
+         cout << "\n\n\t\t\t\t\t\t\t\t\t LOADING...";
+
+        for (int i = 0; i < 2; i++)
+        {
+            Sleep(1500);
+            cout << ".";
+        }
+
+        cout << "\n\n\n\t\t\t\t\t\t\t||@@@@@@@@@@@ INCORRECT PASSWORD @@@@@@@@@@@||\n\t\t\t\t\t\t\t||@@@@@@@@@@@ TRY AGAIN @@@@@@@@@@@||" << endl;
+        getch();
+      exit(-1);
+
+
+        }
+
+
+
+
+
+
+
+
+    return 0;
+}
